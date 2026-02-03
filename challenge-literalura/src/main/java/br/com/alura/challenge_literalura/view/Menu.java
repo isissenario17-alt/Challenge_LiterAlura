@@ -2,9 +2,6 @@ package br.com.alura.challenge_literalura.view;
 
 import br.com.alura.challenge_literalura.model.DadosLivro;
 import br.com.alura.challenge_literalura.model.Livro;
-import br.com.alura.challenge_literalura.model.Results;
-import br.com.alura.challenge_literalura.service.ConsumoAPI;
-import br.com.alura.challenge_literalura.service.ConverteDados;
 import br.com.alura.challenge_literalura.service.PersistenciaDB;
 import org.springframework.stereotype.Component;
 
@@ -72,22 +69,42 @@ public class Menu {
     }
 
     private void listarLivrosDeterminadoIdioma() {
+        System.out.println("""
+                Insira o idioma para realizar a busca:
+                es- Espanhol
+                en- Inglês
+                fr- Fracês
+                pt- Português
+                """);
 
     }
 
     private void listarAutoresVivos() {
+        System.out.println("Insira o ano que deseja pesquisar:");
+        var autoresVivosNoAno = persistenciaDB.listarAutoresVivosNoAno();
+        System.out.println(autoresVivosNoAno);
 
     }
 
     private void listarAutoresRegistrados() {
+        System.out.println("Autores Registrados:");
+        var autores = persistenciaDB.listarAutoresCadastrados();
+        if(autores.isEmpty()){
+            System.out.println("Nenhum autor encontrado!");
+        } else{
+            autores.forEach(System.out::println);
+        }
 
     }
 
     private void listarLivrosRegistrados() {
         System.out.println("Livros Registrados:");
-
-
-
+        var livros = persistenciaDB.listarLivrosCadastrados();
+        if(livros.isEmpty()){
+            System.out.println("Nenhum livro encontrado!");
+        } else{
+            livros.forEach(System.out::println);
+        }
     }
 
     private void buscarLivroPeloTitulo() {
@@ -104,12 +121,7 @@ public class Menu {
     }
 
    private DadosLivro pegueInformacoesLivro(String titulo) {
-//        Results dados =  conversor.obterDados(json, Results.class);
-//         return  dados.listaDadosLivro().stream()
-//                .filter(livro -> livro.titulo().toUpperCase().contains(titulo.toUpperCase()))
-//                .findFirst().orElse(null);
-//
-return null;
+   return null;
     }
 
 }

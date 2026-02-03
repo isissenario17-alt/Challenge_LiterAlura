@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,6 +83,26 @@ public class PersistenciaDB {
         em.persist(livro);
 
         return livro;
+    }
+
+    public List<Livro> listarLivrosCadastrados(){
+        return em.createQuery("SELECT l FROM Livro l ", Livro.class).getResultList();
+    }
+
+    public List<Autor> listarAutoresCadastrados(){
+        return em.createQuery("SELECT a FROM Autor a", Autor.class).getResultList();
+    }
+
+    public List<Autor> listarAutoresVivosNoAno(){
+        int ano;
+        return em.createQuery("""
+                SELECT a FROM Autor a WHERE a.anoNascimento <= :ano 
+                and (a.anoFalecimento is null or a.anoFalecimento >= :ano)
+                """, Autor.class).getResultList();
+    }
+
+    public List<Livro> encontrarLivroPorIdioma(){
+        return em.createQuery("SELECT l FROM Livro JOIN l.idiomas i WHERE LOWER(i) = LOWER(idioma)", Livro.class).getResultList();
     }
 
 }
