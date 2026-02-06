@@ -7,6 +7,8 @@ import br.com.alura.challenge_literalura.model.Results;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.Parameter;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -93,16 +95,16 @@ public class PersistenciaDB {
         return em.createQuery("SELECT a FROM Autor a", Autor.class).getResultList();
     }
 
-    public List<Autor> listarAutoresVivosNoAno(){
-        int ano;
+    public List<Autor> listarAutoresVivosNoAno(int ano){
         return em.createQuery("""
                 SELECT a FROM Autor a WHERE a.anoNascimento <= :ano 
                 and (a.anoFalecimento is null or a.anoFalecimento >= :ano)
                 """, Autor.class).getResultList();
     }
 
-    public List<Livro> encontrarLivroPorIdioma(){
+    public List<Livro> encontrarLivroPorIdioma(String idioma){
         return em.createQuery("SELECT l FROM Livro JOIN l.idiomas i WHERE LOWER(i) = LOWER(idioma)", Livro.class).getResultList();
     }
+
 
 }

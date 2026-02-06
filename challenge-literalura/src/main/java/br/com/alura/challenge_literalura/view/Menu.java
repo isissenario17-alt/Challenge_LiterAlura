@@ -1,8 +1,10 @@
 package br.com.alura.challenge_literalura.view;
 
+import br.com.alura.challenge_literalura.model.Autor;
 import br.com.alura.challenge_literalura.model.DadosLivro;
 import br.com.alura.challenge_literalura.model.Livro;
 import br.com.alura.challenge_literalura.service.PersistenciaDB;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -76,13 +78,27 @@ public class Menu {
                 fr- Fracês
                 pt- Português
                 """);
+        String idioma = scanner.nextLine();
+        var livroIdioma = persistenciaDB.encontrarLivroPorIdioma(idioma);
+        if(livroIdioma.isEmpty()){
+            System.out.println("Nenhum livro encontrado com esse idioma.");
+        }else{
+            livroIdioma.forEach(System.out::println);
+        }
 
     }
 
     private void listarAutoresVivos() {
         System.out.println("Insira o ano que deseja pesquisar:");
-        var autoresVivosNoAno = persistenciaDB.listarAutoresVivosNoAno();
-        System.out.println(autoresVivosNoAno);
+        int ano = scanner.nextInt();
+        scanner.nextLine();
+        var autoresVivosNoAno = persistenciaDB.listarAutoresVivosNoAno(ano);
+        if(autoresVivosNoAno.isEmpty()){
+            System.out.println("Nenhum autor vivo encontrado no ano pesquisado.");
+        } else{
+           autoresVivosNoAno.forEach(System.out::println);
+        }
+
 
     }
 
